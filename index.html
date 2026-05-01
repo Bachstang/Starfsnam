@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starfsnámsplan</title>
+  <meta name="description" content="Heildrænt kerfi fyrir skipulagningu, framkvæmd og eftirlit með starfsnámi í háskólasamfélagi Íslands.">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" integrity="sha384-3B6NwesSXE7YJlcLI9RpRqGf2p/EgVH8BgoKTaUrmKNDkHPStTQ3EyoYjCGXaOTS" crossorigin="anonymous">
+  <style>
+    :root {
+      --cream: #faf9f6;
+      --sand: #ebe7e0;
+      --coral: #b85a4a;
+      --teal: #3d5a80;
+      --teal-light: #98c1d9;
+      --slate: #293241;
+      --slate-muted: #5c6b7a;
+      --white: #ffffff;
+      --shadow-sm: 0 2px 8px rgba(45,55,72,0.06);
+      --shadow-md: 0 8px 30px rgba(45,55,72,0.08);
+      --shadow-lg: 0 20px 50px rgba(45,55,72,0.1);
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 1rem; line-height: 1.6;
+      color: var(--slate); background: var(--cream);
+      min-height: 100vh; overflow-x: hidden;
+    }
+
+    .bg-pattern { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .bg-pattern::before {
+      content: ''; position: absolute; top: -20%; right: -10%; width: 60%; height: 60%;
+      background: radial-gradient(ellipse, rgba(232,122,95,0.12) 0%, transparent 70%); border-radius: 50%;
+    }
+    .bg-pattern::after {
+      content: ''; position: absolute; bottom: -15%; left: -15%; width: 50%; height: 50%;
+      background: radial-gradient(ellipse, rgba(61,90,128,0.08) 0%, transparent 70%); border-radius: 50%;
+    }
+
+    /* NAV */
+    .nav {
+      position: relative; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2rem; max-width: 1200px; margin: 0 auto;
+    }
+    .nav-brand { font-family: Georgia, serif; font-size: 1.5rem; font-weight: 400; color: var(--slate); text-decoration: none; letter-spacing: -0.02em; }
+    .nav-brand:hover { color: var(--teal); }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.25rem; font-size: 0.9rem; font-weight: 600;
+      color: var(--white); background: var(--coral); border-radius: var(--radius-full);
+      text-decoration: none; transition: var(--transition); box-shadow: var(--shadow-sm);
+    }
+    .nav-cta:hover { background: #a84a3a; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+    /* HERO */
+    .hero {
+      position: relative; z-index: 1;
+      max-width: 1200px; margin: 0 auto;
+      padding: 4rem 2rem 3rem; text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem; font-size: 0.85rem; font-weight: 500;
+      color: var(--teal); background: rgba(61,90,128,0.08);
+      border-radius: var(--radius-full); margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: Georgia, serif; font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 400; line-height: 1.15; color: var(--slate);
+      margin: 0 0 1.25rem; letter-spacing: -0.03em;
+    }
+    .hero h1 span { color: var(--slate); }
+    .hero h1 small { display: block; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 1.6rem; font-weight: 400; color: var(--coral); letter-spacing: 0.05em; margin-top: 0.4rem; font-style: italic; }
+    .hero-lead {
+      font-size: 1.2rem; color: var(--slate-muted);
+      max-width: 600px; margin: 0 auto 2rem; line-height: 1.7;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 2rem;
+      justify-content: center; margin-bottom: 1rem;
+    }
+    .hero-meta-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+    .hero-meta-label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-muted); }
+    .hero-meta-value { font-size: 0.95rem; font-weight: 600; color: var(--slate); }
+
+    /* SECTION WRAPPER */
+    .section {
+      position: relative; z-index: 1;
+      max-width: 1200px; margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--coral); font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400;
+      color: var(--slate); margin: 0 0 1rem; letter-spacing: -0.02em;
+    }
+    .section-lead { font-size: 1rem; color: var(--slate-muted); max-width: 620px; margin: 0 0 2rem; line-height: 1.7; }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--sand); margin: 0; }
+
+    /* PROBLEM GRID */
+    .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+    .problem-card {
+      background: var(--white); padding: 1.5rem;
+      border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0,0,0,0.04);
+      border-left: 4px solid var(--coral);
+    }
+    .problem-card h3 { font-size: 1rem; font-weight: 600; color: var(--coral); margin: 0 0 0.5rem; }
+    .problem-card p { font-size: 0.9rem; color: var(--slate-muted); margin: 0; line-height: 1.6; }
+
+    /* MODULE GRID */
+    .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .module-card {
+      background: var(--white); padding: 2rem;
+      border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0,0,0,0.04); transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .module-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+    .module-card.blue::before { background: var(--teal); }
+    .module-card.coral::before { background: var(--coral); }
+    .module-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .module-icon {
+      width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; border-radius: var(--radius-sm); margin-bottom: 1rem;
+    }
+    .module-card.blue .module-icon { color: var(--teal); background: rgba(61,90,128,0.1); }
+    .module-card.coral .module-icon { color: var(--coral); background: rgba(184,90,74,0.1); }
+    .module-card h3 { font-size: 1.1rem; font-weight: 600; color: var(--slate); margin: 0 0 0.5rem; }
+    .module-card p { font-size: 0.9rem; color: var(--slate-muted); margin: 0 0 1rem; line-height: 1.6; }
+    .feature-list { list-style: none; padding: 0; margin: 0; }
+    .feature-list li { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.875rem; color: var(--slate-muted); margin-bottom: 0.4rem; }
+    .feature-list li::before { content: '→'; color: var(--coral); font-size: 0.8rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+    /* STEPS */
+    .steps { display: flex; flex-direction: column; gap: 0; margin-top: 1.5rem; }
+    .step { display: flex; gap: 1.5rem; align-items: flex-start; padding: 1.5rem 0; border-bottom: 1px solid var(--sand); }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 40px; height: 40px; min-width: 40px; border-radius: 50%;
+      background: var(--slate); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-family: Georgia, serif; font-size: 1.1rem; font-weight: 400;
+    }
+    .step h3 { font-size: 1rem; font-weight: 600; color: var(--slate); margin: 0 0 0.3rem; }
+    .step p { font-size: 0.9rem; color: var(--slate-muted); margin: 0; line-height: 1.6; }
+
+    /* GDPR STRIP */
+    .gdpr-strip {
+      position: relative; z-index: 1;
+      max-width: 1200px; margin: 0 auto; padding: 2rem;
+    }
+    .gdpr-inner { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }
+    .gdpr-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; color: var(--slate-muted); }
+    .gdpr-item i { color: var(--teal); }
+
+    /* PILOT BOX */
+    .pilot-section { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 2rem 3rem; }
+    .pilot-box {
+      background: linear-gradient(135deg, rgba(41,50,65,0.96) 0%, rgba(41,50,65,0.92) 100%);
+      padding: 3rem; border-radius: var(--radius-lg); color: var(--white);
+      position: relative; overflow: hidden;
+    }
+    .pilot-box::after {
+      content: ''; position: absolute; bottom: -60px; right: -60px;
+      width: 220px; height: 220px; border-radius: 50%;
+      background: var(--coral); opacity: 0.12;
+    }
+    .pilot-box .section-label { color: rgba(244,168,150,0.9); }
+    .pilot-box h2 { font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400; color: var(--white); margin: 0.25rem 0 0.75rem; letter-spacing: -0.02em; }
+    .pilot-box p { color: rgba(255,255,255,0.72); font-size: 1rem; max-width: 560px; margin: 0 0 1.5rem; line-height: 1.7; }
+    .pilot-box ul { list-style: none; padding: 0; margin: 0 0 2rem; }
+    .pilot-box ul li { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.75); margin-bottom: 0.5rem; }
+    .pilot-box ul li::before { content: '✓'; color: var(--coral-soft, #f4a896); font-weight: 700; flex-shrink: 0; }
+
+    /* CTA */
+    .cta-section { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 2rem 4rem; text-align: center; }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(61,90,128,0.06) 0%, rgba(224,122,95,0.08) 100%);
+      padding: 3rem; border-radius: var(--radius-lg); border: 1px solid rgba(61,90,128,0.08);
+    }
+    .cta-box p { color: var(--slate-muted); margin: 0 0 1.5rem; font-size: 1rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+      padding: 1rem 1.75rem; font-family: inherit; font-size: 1rem; font-weight: 600;
+      text-decoration: none; border-radius: var(--radius-full); border: none; cursor: pointer; transition: var(--transition);
+    }
+    .btn-primary { color: var(--white); background: var(--coral); box-shadow: 0 4px 14px rgba(184,90,74,0.35); }
+    .btn-primary:hover { background: #a84a3a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(168,74,58,0.4); }
+    .btn-white { color: var(--slate); background: var(--white); box-shadow: var(--shadow-sm); }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    footer {
+      position: relative; z-index: 1; max-width: 1200px; margin: 0 auto;
+      padding: 2rem; border-top: 1px solid var(--sand);
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      gap: 1rem; font-size: 0.9rem; color: var(--slate-muted);
+    }
+    footer a { color: var(--slate-muted); text-decoration: none; }
+    footer a:hover { color: var(--teal); }
+
+    @media (max-width: 640px) {
+      .nav { padding: 1rem 1.25rem; }
+      .hero { padding: 3rem 1.25rem 2rem; }
+      .section { padding: 2rem 1.25rem; }
+      .problem-grid, .module-grid { grid-template-columns: 1fr; }
+      .pilot-box, .cta-box { padding: 2rem 1.5rem; }
+      .hero-meta { gap: 1.25rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+      .module-card:hover, .btn:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <nav class="nav" role="navigation">
+    <a class="nav-brand" href="#">Starfsnámsplan</a>
+    <a href="mailto:kontakt@praksisplan.no?subject=Starfsnámsplan" class="nav-cta">
+      <i class="fas fa-envelope" aria-hidden="true"></i>
+      Hafa samband
+    </a>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-badge">
+        <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+        Fyrir háskóla á Íslandi
+      </div>
+      <h1><span>Starfsnámsplan</span><br><small>einfaldara starfsnám</small></h1>
+      <p class="hero-lead">
+        Heildrænt kerfi sem leysir allt af stjórnun og framkvæmd starfsnáms – frá skipulagningu til leiðsagnar og einkunnagjafar.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Markmiðshópur</span>
+          <span class="hero-meta-value">Háskóli Íslands</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Tilboð</span>
+          <span class="hero-meta-value">Tilraunaáskrift</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Innskráning</span>
+          <span class="hero-meta-value">Auðkenni · GDPR/EES</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Þróað af</span>
+          <span class="hero-meta-value">Praksisplan AS, Noregi</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- PROBLEM -->
+    <section class="section">
+      <div class="section-label">Vandinn í dag</div>
+      <h2 class="section-title">Erfitt er að stjórna starfsnámi í dag</h2>
+      <p class="section-lead">Flestir háskólar nota dreifðar Excel-skrár, tölvupóst og handvirkar aðferðir til að skipuleggja starfsnám. Þetta er tímafrekt, villunæmt og gefur takmarkaða yfirsýn yfir stöðu nemenda.</p>
+      <div class="problem-grid">
+        <div class="problem-card">
+          <h3>📋 Handvirk skipulagning</h3>
+          <p>Dreifing nemenda á æfingastaði tekur vikur og krefst margra tölvupósta milli deilda og samstarfsaðila.</p>
+        </div>
+        <div class="problem-card">
+          <h3>📂 Dreifð gögn</h3>
+          <p>Samningar, mat og skráningar eru í mörgum kerfum — engin miðlæg yfirsýn yfir stöðu hvers nemanda.</p>
+        </div>
+        <div class="problem-card">
+          <h3>💬 Veikur samskiptaþráður</h3>
+          <p>Leiðbeinendur, nemendur og háskólakennarar hafa engan sameiginlegan vettvang til að skrá og deila upplýsingum.</p>
+        </div>
+        <div class="problem-card">
+          <h3>📊 Engar gagnaskynjur</h3>
+          <p>Erfitt að sjá mynstur yfir ár eða meta gæði æfingastaða þegar gögn eru ekki í einu kerfi.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- MODULES -->
+    <section class="section">
+      <div class="section-label">Lausnin</div>
+      <h2 class="section-title">Tvær einingar — ein heild</h2>
+      <p class="section-lead">Starfsnámsplan samanstendur af tveimur samþættum einingum sem ná yfir allan feril starfsnámsins frá skipulagningu til mats.</p>
+      <div class="module-grid">
+        <div class="module-card blue">
+          <div class="module-icon"><i class="fas fa-layer-group" aria-hidden="true"></i></div>
+          <h3>Starfsnámsplan — Skipulagning</h3>
+          <p>Fyrir starfsmenn og stjórnendur. Stjórnar dreifingu, samningum og yfirsýn.</p>
+          <ul class="feature-list">
+            <li>Sjálfvirk skipting nemenda á staði</li>
+            <li>Rafræn samningsgerð</li>
+            <li>Samþætting við nemendaskrá</li>
+            <li>Reiknifall fyrir akstursvegalengd</li>
+            <li>Skýrslugerð og útflutningur</li>
+          </ul>
+        </div>
+        <div class="module-card coral">
+          <div class="module-icon"><i class="fas fa-chalkboard-teacher" aria-hidden="true"></i></div>
+          <h3>Starfsnámsplan — Leiðsögn</h3>
+          <p>Fyrir nemendur og leiðbeinendur. Fylgist með framvindu og gefur mat.</p>
+          <ul class="feature-list">
+            <li>Dagbókarfærslur nemenda</li>
+            <li>Skilaboð milli leiðbeinanda og nemanda</li>
+            <li>Rafrænt mat og einkunnagjöf</li>
+            <li>Skjalamiðstöð per nemanda</li>
+            <li>Tilkynningar og áminningar</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- HOW IT WORKS -->
+    <section class="section">
+      <div class="section-label">Hvernig það virkar</div>
+      <h2 class="section-title">Einfalt innleiðingarferli</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <h3>Innskráning í gegnum Auðkenni</h3>
+            <p>Starfsmenn og nemendur skrá sig inn með þjóðskrárlykli sínum — engin ný lykilorð þarf.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <h3>Nemendaskrá flutt inn</h3>
+            <p>Nemendagögn eru flutt inn úr Ugla með einni CSV-skrá. Enginn handvirkur gagnainnsláttur.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div>
+            <h3>Skipulagning og dreifing</h3>
+            <p>Kerfið leggur til dreifingu á æfingastaði með hliðsjón af fjarlægð og framboði. Stjórnandi staðfestir eða lagar.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div>
+            <h3>Fylgist með í rauntíma</h3>
+            <p>Leiðbeinendur skrá mat, nemendur færa inn dagbók, og háskólinn hefur fulla yfirsýn á hverju stigi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- GDPR -->
+    <section class="section">
+      <div class="section-label">Persónuvernd</div>
+      <h2 class="section-title">Byggt á GDPR — eins og íslensk lög krefjast</h2>
+      <p class="section-lead">Ísland er aðili að EES og GDPR gildir að fullu. Starfsnámsplan er hannað með persónuvernd að leiðarljósi.</p>
+      <div class="gdpr-inner">
+        <div class="gdpr-item"><i class="fas fa-lock" aria-hidden="true"></i><span>Innskráning í gegnum Auðkenni / OIDC</span></div>
+        <div class="gdpr-item"><i class="fas fa-server" aria-hidden="true"></i><span>Gögn geymd í ESB — Scaleway, Frakkland</span></div>
+        <div class="gdpr-item"><i class="fas fa-shield-alt" aria-hidden="true"></i><span>GDPR / EES samræmt</span></div>
+        <div class="gdpr-item"><i class="fas fa-database" aria-hidden="true"></i><span>RLS — hvert háskólasamfélag algerlega aðskilið</span></div>
+        <div class="gdpr-item"><i class="fas fa-file-contract" aria-hidden="true"></i><span>Gagnavinnslusamningur (DPA) fylgir öllum samningum</span></div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- PILOT -->
+    <div class="pilot-section" style="padding-top: 3rem;">
+      <div class="pilot-box">
+        <div class="section-label">Tilboð</div>
+        <h2>Tilraunaáskrift — lítil áhætta, mikil reynsla</h2>
+        <p>Við bjóðum upp á sérstakt tilraunatímabil þar sem háskólinn getur prófað kerfið í raun og veru á einni deild eða einu námsbraut — áður en tekin er ákvörðun um fulla útgáfu.</p>
+        <ul>
+          <li>Fullur aðgangur að báðum einingum — skipulagningu og leiðsögn</li>
+          <li>Stuðningur og þjálfun í innleiðingarferlinu</li>
+          <li>Gagnavinnslusamningur (DPA) fylgir samningi</li>
+          <li>Gögn geymd á gagnaverum ESB — GDPR samræmt</li>
+        </ul>
+        <a href="mailto:kontakt@praksisplan.no?subject=Tilraunaáskrift%20Starfsnámsplan" class="btn btn-white">
+          <i class="fas fa-envelope" aria-hidden="true"></i>
+          Hafa samband vegna tilraunaáskriftar
+        </a>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="cta-box">
+        <p>Hefurðu áhuga? Við tökum okkur tíma til að sýna kerfið í gangi.</p>
+        <a href="mailto:kontakt@praksisplan.no?subject=Starfsnámsplan%20kynningarfundur" class="btn btn-primary">
+          <i class="fas fa-envelope" aria-hidden="true"></i>
+          Óska eftir kynningarfundi
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <span>Starfsnámsplan · © 2026 Praksisplan AS</span>
+    <a href="mailto:kontakt@praksisplan.no">kontakt@praksisplan.no</a>
+  </footer>
+</body>
+</html>
