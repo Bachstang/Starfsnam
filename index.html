@@ -164,7 +164,7 @@
       position: relative; z-index: 1;
       max-width: 1200px; margin: 0 auto; padding: 2rem;
     }
-    .gdpr-inner { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }
+    .gdpr-inner { display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-start; }
     .gdpr-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; color: var(--slate-muted); }
     .gdpr-item i { color: var(--teal); }
 
@@ -255,10 +255,6 @@
         <div class="hero-meta-item">
           <span class="hero-meta-label">Markmiðshópur</span>
           <span class="hero-meta-value">Háskóli Íslands</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">Tilboð</span>
-          <span class="hero-meta-value">Tilraunaáskrift</span>
         </div>
         <div class="hero-meta-item">
           <span class="hero-meta-label">Innskráning</span>
@@ -390,8 +386,7 @@
     <!-- GDPR -->
     <section class="section">
       <div class="section-label">Persónuvernd</div>
-      <h2 class="section-title">Byggt á GDPR — eins og íslensk lög krefjast</h2>
-      <p class="section-lead">Ísland er aðili að EES og GDPR gildir að fullu. Starfsnámsplan er hannað með persónuvernd að leiðarljósi.</p>
+      <h2 class="section-title">Byggt á GDPR</h2>
       <div class="gdpr-inner">
         <div class="gdpr-item"><i class="fas fa-lock" aria-hidden="true"></i><span>Innskráning í gegnum Auðkenni / OIDC</span></div>
         <div class="gdpr-item"><i class="fas fa-server" aria-hidden="true"></i><span>Gögn geymd í ESB á evrópskeigendum netþjónum</span></div>
@@ -404,24 +399,6 @@
     <hr class="divider">
 
     <!-- PILOT -->
-    <div class="pilot-section" style="padding-top: 3rem;">
-      <div class="pilot-box">
-        <div class="section-label">Tilboð</div>
-        <h2>Tilraunaáskrift — lítil áhætta, mikil reynsla</h2>
-        <p>Við bjóðum upp á sérstakt tilraunatímabil þar sem háskólinn getur prófað kerfið í raun og veru á einni deild eða einu námsbraut — áður en tekin er ákvörðun um fulla útgáfu.</p>
-        <ul>
-          <li>Fullur aðgangur að báðum einingum — skipulagningu og leiðsögn</li>
-          <li>Stuðningur og þjálfun í innleiðingarferlinu</li>
-          <li>Gagnavinnslusamningur (DPA) fylgir samningi</li>
-          <li>Gögn geymd á gagnaverum ESB — GDPR samræmt</li>
-        </ul>
-        <a href="mailto:kontakt@praksisplan.no?subject=Tilraunaáskrift%20Starfsnámsplan" class="btn btn-white">
-          <i class="fas fa-envelope" aria-hidden="true"></i>
-          Hafa samband vegna tilraunaáskriftar
-        </a>
-      </div>
-    </div>
-
     <!-- CTA -->
     <section class="cta-section">
       <div class="cta-box">
