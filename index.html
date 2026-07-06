@@ -5,252 +5,338 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Starfsnám.is</title>
   <meta name="description" content="Heildrænt kerfi fyrir skipulagningu, framkvæmd og eftirlit með starfsnámi í háskólasamfélagi Íslands.">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" integrity="sha384-3B6NwesSXE7YJlcLI9RpRqGf2p/EgVH8BgoKTaUrmKNDkHPStTQ3EyoYjCGXaOTS" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --cream: #faf9f6;
       --sand: #ebe7e0;
       --coral: #b85a4a;
+      --coral-soft: #f4a896;
       --teal: #3d5a80;
       --teal-light: #98c1d9;
       --slate: #293241;
       --slate-muted: #5c6b7a;
       --white: #ffffff;
       --shadow-sm: 0 2px 8px rgba(45,55,72,0.06);
-      --shadow-md: 0 8px 30px rgba(45,55,72,0.08);
-      --shadow-lg: 0 20px 50px rgba(45,55,72,0.1);
-      --radius-sm: 12px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-full: 9999px;
       --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+      --radius-full: 9999px;
     }
+
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 1rem; line-height: 1.6;
-      color: var(--slate); background: var(--cream);
-      min-height: 100vh; overflow-x: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--slate);
+      background: var(--cream);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    .bg-pattern { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
     .bg-pattern::before {
-      content: ''; position: absolute; top: -20%; right: -10%; width: 60%; height: 60%;
-      background: radial-gradient(ellipse, rgba(232,122,95,0.12) 0%, transparent 70%); border-radius: 50%;
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(ellipse, rgba(232,122,95,0.12) 0%, transparent 70%);
+      border-radius: 50%;
     }
     .bg-pattern::after {
-      content: ''; position: absolute; bottom: -15%; left: -15%; width: 50%; height: 50%;
-      background: radial-gradient(ellipse, rgba(61,90,128,0.08) 0%, transparent 70%); border-radius: 50%;
+      content: '';
+      position: absolute;
+      bottom: -15%;
+      left: -15%;
+      width: 50%;
+      height: 50%;
+      background: radial-gradient(ellipse, rgba(61,90,128,0.08) 0%, transparent 70%);
+      border-radius: 50%;
     }
 
-    /* NAV */
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--cream);
+      border-bottom: 1px solid var(--sand);
+    }
     .nav {
-      position: relative; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 2rem; max-width: 1200px; margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-    .nav-brand { font-family: Georgia, serif; font-size: 1.5rem; font-weight: 400; color: var(--slate); text-decoration: none; letter-spacing: -0.02em; }
+    .nav-brand {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--slate);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
     .nav-brand:hover { color: var(--teal); }
-    .nav-cta {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.6rem 1.25rem; font-size: 0.9rem; font-weight: 600;
-      color: var(--white); background: var(--coral); border-radius: var(--radius-full);
-      text-decoration: none; transition: var(--transition); box-shadow: var(--shadow-sm);
+    .nav-contact {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--teal);
+      text-decoration: none;
     }
-    .nav-cta:hover { background: #a84a3a; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .nav-contact:hover {
+      color: #2d4562;
+      text-decoration: underline;
+    }
+    .nav-brand:focus-visible,
+    .nav-contact:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 2px;
+    }
 
-    /* HERO */
     .hero {
-      position: relative; z-index: 1;
-      max-width: 1200px; margin: 0 auto;
-      padding: 4rem 2rem 3rem; text-align: center;
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 2.5rem;
+      text-align: center;
+    }
+    .hero-title-block { margin: 0 0 1.25rem; }
+    .hero h1 {
+      font-family: Georgia, serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--slate);
+      margin: 0 0 0.35rem;
+      letter-spacing: -0.03em;
+    }
+    .hero-tagline {
+      font-family: Georgia, serif;
+      font-size: clamp(1.35rem, 3.1vw, 2.05rem);
+      font-weight: 400;
+      line-height: 1.35;
+      color: var(--coral);
+      font-style: italic;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+    .hero-lead {
+      font-size: 1.2rem;
+      color: var(--slate-muted);
+      max-width: 580px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.7;
     }
     .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.4rem 1rem; font-size: 0.85rem; font-weight: 500;
-      color: var(--teal); background: rgba(61,90,128,0.08);
-      border-radius: var(--radius-full); margin-bottom: 1.5rem;
-    }
-    .hero h1 {
-      font-family: Georgia, serif; font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 400; line-height: 1.15; color: var(--slate);
-      margin: 0 0 1.25rem; letter-spacing: -0.03em;
-    }
-    .hero h1 span { color: var(--slate); }
-    .hero h1 small { display: block; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 1.6rem; font-weight: 400; color: var(--coral); letter-spacing: 0.05em; margin-top: 0.4rem; font-style: italic; }
-    .hero-lead {
-      font-size: 1.2rem; color: var(--slate-muted);
-      max-width: 600px; margin: 0 auto 2rem; line-height: 1.7;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--teal);
+      background: rgba(61,90,128,0.08);
+      border-radius: var(--radius-full);
+      margin: 0;
     }
     .hero-meta {
-      display: flex; flex-wrap: wrap; gap: 2rem;
-      justify-content: center; margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem 2.5rem;
+      justify-content: center;
+      margin-top: 1.75rem;
+      font-size: 0.9rem;
+      color: var(--slate-muted);
     }
-    .hero-meta-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
-    .hero-meta-label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-muted); }
-    .hero-meta-value { font-size: 0.95rem; font-weight: 600; color: var(--slate); }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+    .hero-meta-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--slate-muted);
+    }
+    .hero-meta-value {
+      font-weight: 600;
+      color: var(--slate);
+    }
 
-    /* SECTION WRAPPER */
-    .section {
-      position: relative; z-index: 1;
-      max-width: 1200px; margin: 0 auto;
-      padding: 3rem 2rem;
+    .landing-section {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 2rem 3.5rem;
     }
     .section-label {
-      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--coral); font-weight: 600; margin-bottom: 0.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--coral);
+      font-weight: 600;
+      margin: 0 0 0.5rem;
     }
     .section-title {
-      font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400;
-      color: var(--slate); margin: 0 0 1rem; letter-spacing: -0.02em;
+      font-family: Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: var(--slate);
+      text-align: left;
+      margin: 0 0 1rem;
+      letter-spacing: -0.02em;
     }
-    .section-lead { font-size: 1rem; color: var(--slate-muted); max-width: 620px; margin: 0 0 2rem; line-height: 1.7; }
+    .section-lead {
+      font-size: 1.0625rem;
+      color: var(--slate-muted);
+      line-height: 1.7;
+      margin: 0 0 2rem;
+      max-width: 42rem;
+    }
+    .about-block {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--sand);
+    }
+    .about-block:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .about-block h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--slate);
+      margin: 0 0 0.6rem;
+    }
+    .about-block p {
+      font-size: 0.9375rem;
+      color: var(--slate-muted);
+      margin: 0;
+      line-height: 1.65;
+      max-width: 42rem;
+    }
+    .about-block p + p { margin-top: 0.75rem; }
+    .about-block ul {
+      margin: 0.75rem 0 0;
+      padding-left: 1.25rem;
+      max-width: 42rem;
+      font-size: 0.9375rem;
+      color: var(--slate-muted);
+      line-height: 1.65;
+    }
+    .about-block li + li { margin-top: 0.35rem; }
 
-    /* DIVIDER */
-    .divider { border: none; border-top: 1px solid var(--sand); margin: 0; }
-
-    /* PROBLEM GRID */
-    .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
-    .problem-card {
-      background: var(--white); padding: 1.5rem;
-      border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
-      border: 1px solid rgba(0,0,0,0.04);
-      border-left: 4px solid var(--coral);
+    .landing-contact-note {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+      text-align: center;
+      font-size: 0.9375rem;
+      color: var(--slate-muted);
     }
-    .problem-card h3 { font-size: 1rem; font-weight: 600; color: var(--coral); margin: 0 0 0.5rem; }
-    .problem-card p { font-size: 0.9rem; color: var(--slate-muted); margin: 0; line-height: 1.6; }
-
-    /* MODULE GRID */
-    .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-    .module-card {
-      background: var(--white); padding: 2rem;
-      border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
-      border: 1px solid rgba(0,0,0,0.04); transition: var(--transition);
-      position: relative; overflow: hidden;
+    .landing-contact-note a {
+      color: var(--teal);
+      font-weight: 500;
+      text-decoration: none;
     }
-    .module-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
-    .module-card.blue::before { background: var(--teal); }
-    .module-card.coral::before { background: var(--coral); }
-    .module-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .module-icon {
-      width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-      font-size: 1.25rem; border-radius: var(--radius-sm); margin-bottom: 1rem;
+    .landing-contact-note a:hover {
+      text-decoration: underline;
+      color: #2d4562;
     }
-    .module-card.blue .module-icon { color: var(--teal); background: rgba(61,90,128,0.1); }
-    .module-card.coral .module-icon { color: var(--coral); background: rgba(184,90,74,0.1); }
-    .module-card h3 { font-size: 1.1rem; font-weight: 600; color: var(--slate); margin: 0 0 0.5rem; }
-    .module-card p { font-size: 0.9rem; color: var(--slate-muted); margin: 0 0 1rem; line-height: 1.6; }
-    .feature-list { list-style: none; padding: 0; margin: 0; }
-    .feature-list li { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.875rem; color: var(--slate-muted); margin-bottom: 0.4rem; }
-    .feature-list li::before { content: '→'; color: var(--coral); font-size: 0.8rem; flex-shrink: 0; margin-top: 0.1rem; }
-
-    /* STEPS */
-    .steps { display: flex; flex-direction: column; gap: 0; margin-top: 1.5rem; }
-    .step { display: flex; gap: 1.5rem; align-items: flex-start; padding: 1.5rem 0; border-bottom: 1px solid var(--sand); }
-    .step:last-child { border-bottom: none; }
-    .step-num {
-      width: 40px; height: 40px; min-width: 40px; border-radius: 50%;
-      background: var(--slate); color: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      font-family: Georgia, serif; font-size: 1.1rem; font-weight: 400;
-    }
-    .step h3 { font-size: 1rem; font-weight: 600; color: var(--slate); margin: 0 0 0.3rem; }
-    .step p { font-size: 0.9rem; color: var(--slate-muted); margin: 0; line-height: 1.6; }
-
-    /* GDPR STRIP */
-    .gdpr-strip {
-      position: relative; z-index: 1;
-      max-width: 1200px; margin: 0 auto; padding: 2rem;
-    }
-    .gdpr-inner { display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-start; }
-    .gdpr-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; color: var(--slate-muted); }
-    .gdpr-item i { color: var(--teal); }
-
-    /* PILOT BOX */
-    .pilot-section { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 2rem 3rem; }
-    .pilot-box {
-      background: linear-gradient(135deg, rgba(41,50,65,0.96) 0%, rgba(41,50,65,0.92) 100%);
-      padding: 3rem; border-radius: var(--radius-lg); color: var(--white);
-      position: relative; overflow: hidden;
-    }
-    .pilot-box::after {
-      content: ''; position: absolute; bottom: -60px; right: -60px;
-      width: 220px; height: 220px; border-radius: 50%;
-      background: var(--coral); opacity: 0.12;
-    }
-    .pilot-box .section-label { color: rgba(244,168,150,0.9); }
-    .pilot-box h2 { font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400; color: var(--white); margin: 0.25rem 0 0.75rem; letter-spacing: -0.02em; }
-    .pilot-box p { color: rgba(255,255,255,0.72); font-size: 1rem; max-width: 560px; margin: 0 0 1.5rem; line-height: 1.7; }
-    .pilot-box ul { list-style: none; padding: 0; margin: 0 0 2rem; }
-    .pilot-box ul li { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.95rem; color: rgba(255,255,255,0.75); margin-bottom: 0.5rem; }
-    .pilot-box ul li::before { content: '✓'; color: var(--coral-soft, #f4a896); font-weight: 700; flex-shrink: 0; }
-
-    /* CTA */
-    .cta-section { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 2rem 4rem; text-align: center; }
-    .cta-box {
-      background: linear-gradient(135deg, rgba(61,90,128,0.06) 0%, rgba(224,122,95,0.08) 100%);
-      padding: 3rem; border-radius: var(--radius-lg); border: 1px solid rgba(61,90,128,0.08);
-    }
-    .cta-box p { color: var(--slate-muted); margin: 0 0 1.5rem; font-size: 1rem; }
-
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
-      padding: 1rem 1.75rem; font-family: inherit; font-size: 1rem; font-weight: 600;
-      text-decoration: none; border-radius: var(--radius-full); border: none; cursor: pointer; transition: var(--transition);
-    }
-    .btn-primary { color: var(--white); background: var(--coral); box-shadow: 0 4px 14px rgba(184,90,74,0.35); }
-    .btn-primary:hover { background: #a84a3a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(168,74,58,0.4); }
-    .btn-white { color: var(--slate); background: var(--white); box-shadow: var(--shadow-sm); }
-    .btn-white:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
     footer {
-      position: relative; z-index: 1; max-width: 1200px; margin: 0 auto;
-      padding: 2rem; border-top: 1px solid var(--sand);
-      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-      gap: 1rem; font-size: 0.9rem; color: var(--slate-muted);
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-top: 1px solid var(--sand);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--slate-muted);
     }
-    footer a { color: var(--slate-muted); text-decoration: none; }
+    footer a {
+      color: var(--slate-muted);
+      text-decoration: none;
+    }
     footer a:hover { color: var(--teal); }
 
+    .skip-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      padding: 0.5rem 0.75rem;
+      background: var(--teal);
+      color: #fff;
+      text-decoration: none;
+      clip: rect(1px, 1px, 1px, 1px);
+      clip-path: inset(50%);
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .skip-link:focus {
+      clip: auto;
+      clip-path: none;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      white-space: normal;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+
     @media (max-width: 640px) {
-      .nav { padding: 1rem 1.25rem; }
+      .nav { padding: 0.875rem 1rem; }
       .hero { padding: 3rem 1.25rem 2rem; }
-      .section { padding: 2rem 1.25rem; }
-      .problem-grid, .module-grid { grid-template-columns: 1fr; }
-      .pilot-box, .cta-box { padding: 2rem 1.5rem; }
-      .hero-meta { gap: 1.25rem; }
+      .landing-section, .landing-contact-note { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .hero-meta { gap: 1rem 1.5rem; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; }
-      .module-card:hover, .btn:hover { transform: none; }
     }
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Hoppa í aðalinnihald</a>
   <div class="bg-pattern" aria-hidden="true"></div>
 
-  <nav class="nav" role="navigation">
-    <a class="nav-brand" href="#">Starfsnám.is</a>
-    <a href="mailto:kontakt@praksisplan.no?subject=Starfsnám.is" class="nav-cta">
-      <i class="fas fa-envelope" aria-hidden="true"></i>
-      Hafa samband
-    </a>
-  </nav>
+  <header class="nav-bar">
+    <nav class="nav" aria-label="Aðalvalmynd">
+      <a class="nav-brand" href="#">Starfsnám.is</a>
+      <a href="mailto:kontakt@praksisplan.no?subject=Starfsnám.is" class="nav-contact">Hafa samband</a>
+    </nav>
+  </header>
 
-  <main>
-
-    <!-- HERO -->
+  <main id="main-content">
     <section class="hero">
-      <div class="hero-badge">
-        <i class="fas fa-graduation-cap" aria-hidden="true"></i>
-        Fyrir háskóla á Íslandi
+      <div class="hero-title-block">
+        <h1>Starfsnám.is</h1>
+        <p class="hero-tagline">einfaldara starfsnám</p>
       </div>
-      <h1><span>Starfsnám.is</span><br><small>einfaldara starfsnám</small></h1>
       <p class="hero-lead">
         Heildrænt kerfi sem leysir allt í tengslum við stjórnun og framkvæmd starfsnáms – frá skipulagningu til leiðsagnar og einkunnagjafar.
       </p>
+      <p class="hero-badge">Fyrir háskóla á Íslandi</p>
       <div class="hero-meta">
         <div class="hero-meta-item">
           <span class="hero-meta-label">Markmiðshópur</span>
@@ -267,153 +353,106 @@
       </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- PROBLEM -->
-    <section class="section">
+    <section class="landing-section" aria-labelledby="problem-title">
       <div class="section-label">Vandinn í dag</div>
-      <h2 class="section-title">Erfitt er að stjórna starfsnámi í dag</h2>
+      <h2 class="section-title" id="problem-title">Erfitt er að stjórna starfsnámi í dag</h2>
       <p class="section-lead">Flestir háskólar nota dreifðar Excel-skrár, tölvupóst og handvirkar aðferðir til að skipuleggja starfsnám. Þetta er tímafrekt, villunæmt og gefur takmarkaða yfirsýn yfir stöðu nemenda.</p>
-      <div class="problem-grid">
-        <div class="problem-card">
-          <h3>📋 Handvirk skipulagning</h3>
-          <p>Dreifing nemenda á æfingastaði tekur vikur og krefst margra tölvupósta milli deilda og samstarfsaðila.</p>
-        </div>
-        <div class="problem-card">
-          <h3>📂 Dreifð gögn</h3>
-          <p>Samningar, mat og skráningar eru í mörgum kerfum — engin miðlæg yfirsýn yfir stöðu hvers nemanda.</p>
-        </div>
-        <div class="problem-card">
-          <h3>💬 Veikur samskiptaþráður</h3>
-          <p>Leiðbeinendur, nemendur og háskólakennarar hafa engan sameiginlegan vettvang til að skrá og deila upplýsingum.</p>
-        </div>
-        <div class="problem-card">
-          <h3>📊 Engar gagnaskynjur</h3>
-          <p>Erfitt að sjá mynstur yfir ár eða meta gæði æfingastaða þegar gögn eru ekki í einu kerfi.</p>
-        </div>
+      <div class="about-block">
+        <h3>Handvirk skipulagning</h3>
+        <p>Dreifing nemenda á æfingastaði tekur vikur og krefst margra tölvupósta milli deilda og samstarfsaðila.</p>
+      </div>
+      <div class="about-block">
+        <h3>Dreifð gögn</h3>
+        <p>Samningar, mat og skráningar eru í mörgum kerfum — engin miðlæg yfirsýn yfir stöðu hvers nemanda.</p>
+      </div>
+      <div class="about-block">
+        <h3>Veikur samskiptaþráður</h3>
+        <p>Leiðbeinendur, nemendur og háskólakennarar hafa engan sameiginlegan vettvang til að skrá og deila upplýsingum.</p>
+      </div>
+      <div class="about-block">
+        <h3>Engar gagnaskynjur</h3>
+        <p>Erfitt að sjá mynstur yfir ár eða meta gæði æfingastaða þegar gögn eru ekki í einu kerfi.</p>
       </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- MODULES -->
-    <section class="section">
+    <section class="landing-section" aria-labelledby="solution-title">
       <div class="section-label">Lausnin</div>
-      <h2 class="section-title">Tvær einingar — ein heild</h2>
+      <h2 class="section-title" id="solution-title">Tvær einingar — ein heild</h2>
       <p class="section-lead">Starfsnám.is samanstendur af tveimur samþættum einingum sem ná yfir allan feril starfsnámsins frá skipulagningu til mats.</p>
-      <div class="module-grid">
-        <div class="module-card blue">
-          <div class="module-icon"><i class="fas fa-layer-group" aria-hidden="true"></i></div>
-          <h3>Starfsnám.is — Skipulagning</h3>
-          <p>Fyrir starfsmenn og stjórnendur. Stjórnar dreifingu, samningum og yfirsýn.</p>
-          <ul class="feature-list">
-            <li>Sjálfvirk skipting nemenda á æfingastaði miðað við fjarlægð, framboð og öll nauðsynleg skilyrði</li>
-            <li>Sjálfvirk gerð og sending samninga og endurgreiðslubilaga — kemur í stað pappírseyðublaða</li>
-            <li>Æfingastaðir skráðir með leit í fyrirtækjaskrá — kennitala fyllir sjálfkrafa inn nafn og heimilisfang</li>
-            <li>Samstilling nemenda við nemendaskrá — hægt er að tengja við Ugla eða önnur nemendakerfi</li>
-            <li>Skýrslugerð og útflutningur</li>
-          </ul>
-        </div>
-        <div class="module-card coral">
-          <div class="module-icon"><i class="fas fa-chalkboard-teacher" aria-hidden="true"></i></div>
-          <h3>Starfsnám.is — Leiðsögn</h3>
-          <p>Fyrir nemendur og leiðbeinendur. Fylgist með framvindu og gefur mat.</p>
-          <ul class="feature-list">
-            <li>Áætlun fyrir starfsnámsdaga og -lotur</li>
-            <li>Skilaboð milli leiðbeinanda og nemanda</li>
-            <li>Rafrænt mat og einkunnagjöf</li>
-            <li>Skjalamiðstöð per nemanda</li>
-            <li>Tilkynningar og áminningar</li>
-          </ul>
-        </div>
+      <div class="about-block">
+        <h3>Starfsnám.is — Skipulagning</h3>
+        <p>Fyrir starfsmenn og stjórnendur. Stjórnar dreifingu, samningum og yfirsýn.</p>
+        <ul>
+          <li>Sjálfvirk skipting nemenda á æfingastaði miðað við fjarlægð, framboð og öll nauðsynleg skilyrði</li>
+          <li>Sjálfvirk gerð og sending samninga og endurgreiðslubilaga — kemur í stað pappírseyðublaða</li>
+          <li>Æfingastaðir skráðir með leit í fyrirtækjaskrá — kennitala fyllir sjálfkrafa inn nafn og heimilisfang</li>
+          <li>Samstilling nemenda við nemendaskrá — hægt er að tengja við Ugla eða önnur nemendakerfi</li>
+          <li>Skýrslugerð og útflutningur</li>
+        </ul>
+      </div>
+      <div class="about-block">
+        <h3>Starfsnám.is — Leiðsögn</h3>
+        <p>Fyrir nemendur og leiðbeinendur. Fylgist með framvindu og gefur mat.</p>
+        <ul>
+          <li>Áætlun fyrir starfsnámsdaga og -lotur</li>
+          <li>Skilaboð milli leiðbeinanda og nemanda</li>
+          <li>Rafrænt mat og einkunnagjöf</li>
+          <li>Skjalamiðstöð per nemanda</li>
+          <li>Tilkynningar og áminningar</li>
+        </ul>
       </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- HOW IT WORKS -->
-    <section class="section">
+    <section class="landing-section" aria-labelledby="process-title">
       <div class="section-label">Hvernig það virkar</div>
-      <h2 class="section-title">Einfalt innleiðingarferli</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div>
-            <h3>Innskráning í gegnum Auðkenni</h3>
-            <p>Starfsmenn og nemendur skrá sig inn með þjóðskrárlykli sínum — engin ný lykilorð þarf.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div>
-            <h3>Nemendur samstilltir við nemendakerfi</h3>
-            <p>Hægt er að tengja við API eða flytja inn með CSV — enginn handvirkur gagnainnsláttur.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div>
-            <h3>Æfingastaðir skráðir á sekúndum</h3>
-            <p>Sláðu inn kennitölu æfingastaðar — kerfið sækir sjálfkrafa nafn og heimilisfang úr fyrirtækjaskrá.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div>
-            <h3>Sjálfvirk úthlutun nemenda</h3>
-            <p>Kerfið dreifir nemendum á æfingastaði sjálfkrafa miðað við fjarlægð, framboð, námsbraut og öll skilyrði sem háskólinn setur. Stjórnandi staðfestir eða lagar.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">5</div>
-          <div>
-            <h3>Samningar og bilag gerð sjálfkrafa</h3>
-            <p>Þegar úthlutun er staðfest eru samningar og endurgreiðslubilög gerð og send sjálfkrafa — engin pappírseyðublöð, engin handvirk sendiskipti.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">6</div>
-          <div>
-            <h3>Leiðsögn og mat í rauntíma</h3>
-            <p>Leiðbeinendur skrá mat, nemendur færa inn dagbók, og háskólinn hefur fulla yfirsýn á hverju stigi. Einkunnir skráðar sjálfkrafa að loknu starfsnámi.</p>
-          </div>
-        </div>
+      <h2 class="section-title" id="process-title">Einfalt innleiðingarferli</h2>
+      <div class="about-block">
+        <h3>Innskráning í gegnum Auðkenni</h3>
+        <p>Starfsmenn og nemendur skrá sig inn með þjóðskrárlykli sínum — engin ný lykilorð þarf.</p>
+      </div>
+      <div class="about-block">
+        <h3>Nemendur samstilltir við nemendakerfi</h3>
+        <p>Hægt er að tengja við API eða flytja inn með CSV — enginn handvirkur gagnainnsláttur.</p>
+      </div>
+      <div class="about-block">
+        <h3>Æfingastaðir skráðir á sekúndum</h3>
+        <p>Sláðu inn kennitölu æfingastaðar — kerfið sækir sjálfkrafa nafn og heimilisfang úr fyrirtækjaskrá.</p>
+      </div>
+      <div class="about-block">
+        <h3>Sjálfvirk úthlutun nemenda</h3>
+        <p>Kerfið dreifir nemendum á æfingastaði sjálfkrafa miðað við fjarlægð, framboð, námsbraut og öll skilyrði sem háskólinn setur. Stjórnandi staðfestir eða lagar.</p>
+      </div>
+      <div class="about-block">
+        <h3>Samningar og bilag gerð sjálfkrafa</h3>
+        <p>Þegar úthlutun er staðfest eru samningar og endurgreiðslubilög gerð og send sjálfkrafa — engin pappírseyðublöð, engin handvirk sendiskipti.</p>
+      </div>
+      <div class="about-block">
+        <h3>Leiðsögn og mat í rauntíma</h3>
+        <p>Leiðbeinendur skrá mat, nemendur færa inn dagbók, og háskólinn hefur fulla yfirsýn á hverju stigi. Einkunnir skráðar sjálfkrafa að loknu starfsnámi.</p>
       </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- GDPR -->
-    <section class="section">
+    <section class="landing-section" aria-labelledby="gdpr-title">
       <div class="section-label">Persónuvernd</div>
-      <h2 class="section-title">Byggt á GDPR</h2>
-      <div class="gdpr-inner">
-        <div class="gdpr-item"><i class="fas fa-lock" aria-hidden="true"></i><span>Innskráning í gegnum Auðkenni / OIDC</span></div>
-        <div class="gdpr-item"><i class="fas fa-server" aria-hidden="true"></i><span>Gögn geymd í ESB á evrópskeigendum netþjónum</span></div>
-        <div class="gdpr-item"><i class="fas fa-shield-alt" aria-hidden="true"></i><span>GDPR / EES samræmt</span></div>
-        <div class="gdpr-item"><i class="fas fa-database" aria-hidden="true"></i><span>RLS — hvert háskólasamfélag algerlega aðskilið</span></div>
-        <div class="gdpr-item"><i class="fas fa-file-contract" aria-hidden="true"></i><span>Gagnavinnslusamningur (DPA) fylgir öllum samningum</span></div>
+      <h2 class="section-title" id="gdpr-title">Byggt á GDPR</h2>
+      <div class="about-block">
+        <p>Innskráning í gegnum Auðkenni / OIDC</p>
+        <p>Gögn geymd í ESB á evrópskeigendum netþjónum</p>
+        <p>GDPR / EES samræmt</p>
+        <p>RLS — hvert háskólasamfélag algerlega aðskilið</p>
+        <p>Gagnavinnslusamningur (DPA) fylgir öllum samningum</p>
       </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- PILOT -->
-    <!-- CTA -->
-    <section class="cta-section">
-      <div class="cta-box">
-        <p>Hefurðu áhuga? Við tökum okkur tíma til að sýna kerfið í gangi.</p>
-        <a href="mailto:kontakt@praksisplan.no?subject=Starfsnám.is%20kynningarfundur" class="btn btn-primary">
-          <i class="fas fa-envelope" aria-hidden="true"></i>
-          Óska eftir kynningarfundi
-        </a>
-      </div>
-    </section>
-
+    <p class="landing-contact-note">
+      Hefurðu áhuga? Við tökum okkur tíma til að sýna kerfið í gangi.
+      <a href="mailto:kontakt@praksisplan.no?subject=Starfsnám.is%20kynningarfundur">Óska eftir kynningarfundi</a>
+    </p>
   </main>
 
   <footer role="contentinfo">
     <span>Starfsnám.is · © 2026 Praksisplan AS</span>
+    <a href="mailto:kontakt@praksisplan.no?subject=Starfsnám.is">Hafa samband</a>
   </footer>
 </body>
 </html>
